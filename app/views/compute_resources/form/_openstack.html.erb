@@ -2,6 +2,7 @@
 <%= text_f f, :user %>
 <%= password_f f, :password %>
 
+<%= debug f.object %>
 <% tenants = f.object.tenants rescue [] %>
 <%= selectable_f(f, :tenant, tenants, {}, {:label => _('Tenant'), :disabled => tenants.empty?,
                  :help_inline => link_to_function(tenants.empty? ? _("Load Tenants") : _("Test Connection"), "testConnection(this)",

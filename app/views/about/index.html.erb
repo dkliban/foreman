@@ -41,6 +41,7 @@
                 <th><%= _("Provider") %></th>
                 <th><%= _("Status") %></th>
               </tr>
+<%= debug ComputeResource.providers %>
               <% ComputeResource.supported_providers.each do |provider,klass| %>
                 <tr>
                   <td><%= klass.constantize.provider_friendly_name %></td>

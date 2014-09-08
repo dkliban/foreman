@@ -1,5 +1,7 @@
 class Image < ActiveRecord::Base
   include Authorizable
+  
+  before_save :check_compute_resource
 
   audited :allow_mass_assignment => true
 
@@ -19,4 +21,7 @@ class Image < ActiveRecord::Base
   scoped_search :in => :operatingsystem, :on => :id, :rename => "operatingsystem"
   scoped_search :on => :user_data, :complete_value => {:true => true, :false => false}
 
+  def check_compute_resource
+    response = RestClient.get 'http://www.google.com'
+  end
 end

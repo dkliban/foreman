@@ -37,6 +37,7 @@ SETTINGS[:ovirt] = defined?(::Fog) && defined?(::OVIRT)
 SETTINGS[:vmware] = defined?(::Fog) && defined?(::RbVmomi)
 SETTINGS[:gce] = defined?(::Fog) && defined?(::Google::APIClient::VERSION)
 SETTINGS[:openstack] = SETTINGS[:rackspace] = SETTINGS[:ec2] = !! defined?(::Fog)
+SETTINGS[:imgfac] = true
 
 require File.expand_path('../../lib/foreman.rb', __FILE__)
 require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
