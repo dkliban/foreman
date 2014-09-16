@@ -1,0 +1,48 @@
+<%= javascript 'image_store', 'lookup_keys'%>
+<% title @image_store.name %>
+
+<% title_actions link_to_if_authorized(_('Edit'), hash_for_edit_image_store_path(@image_store).merge(:auth_object => @image_store), :class => "btn btn-default")  %>
+
+<ul class="nav nav-tabs" data-tabs="tabs">
+  <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>
+  <% if @image_store.capabilities.include?(:image) %>
+    <li><a href="#images" data-toggle="tab"><%= _("Images") %></a></li>
+  <% end %>
+</ul>
+
+<div class="tab-content">
+
+  <div class="tab-pane active" id="primary">
+    <table class="table table-bordered table-striped">
+      <th><%= _("Details") %></th>
+      <th></th>
+
+      <tr>
+        <td><%= _("Provider") %></td>
+        <td><%= @image_store.provider_friendly_name %></td>
+      </tr>
+
+      <% unless @image_store.description.empty? %>
+      <tr>
+        <td><%= _("Description") %></td>
+        <td><%= @image_store.description %></td>
+      </tr>
+      <% end %>
+
+      <% # optional extra display elements based on type %>
+      <%= render "image_stores/show/#{@image_store.provider.downcase}" %>
+    </table>
+  </div>
+  <% if @image_store.capabilities.include?(:image) %>
+    <div id="images" class="tab-pane">
+      <%= title_actions(display_link_if_authorized(_("New Image"), hash_for_new_image_store_image_path(:image_store_id => @image_store.id), :class => "btn btn-success", :data=>{:target=>"full-page"})) %>
+      <div id="images_list" data-url=<%= image_store_images_path(@image_store) %>>
+        <p id="spinner">
+          <%= image_tag '/assets/spinner.gif' %>
+          <%= _('Loading Images information') %> ...
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>
+

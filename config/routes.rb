@@ -68,6 +68,7 @@ Foreman::Application.routes.draw do
         post 'domain_selected'
         post 'use_image_selected'
         post 'compute_resource_selected'
+        post 'image_store_selected'
         post 'medium_selected'
         get  'select_multiple_organization'
         post 'update_multiple_organization'
@@ -297,6 +298,33 @@ Foreman::Application.routes.draw do
 
     constraints(:id => /[^\/]+/) do
       resources :compute_resources do
+        member do
+          post 'template_selected'
+          post 'cluster_selected'
+          post 'ping'
+          put 'associate'
+        end
+        constraints(:id => /[^\/]+/) do
+          resources :vms, :controller => "compute_resources_vms" do
+            member do
+              put 'power'
+              put 'pause'
+              put 'associate'
+              get 'console'
+            end
+          end
+        end
+        collection do
+          get  'auto_complete_search'
+          get 'provider_selected'
+          put  'test_connection'
+        end
+        resources :images, :except => [:show]
+      end
+    end
+
+    constraints(:id => /[^\/]+/) do
+      resources :image_stores do
         member do
           post 'template_selected'
           post 'cluster_selected'

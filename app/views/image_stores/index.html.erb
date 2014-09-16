@@ -1,0 +1,24 @@
+<% title _("Image Stores") %>
+<% title_actions display_link_if_authorized(_("New Image Store"), hash_for_new_image_store_path), help_path %>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th><%= sort :name, :as => s_("ImageStoreName") %></th>
+    <th><%= sort :type, :as => _("Type") %></th>
+    <th></th>
+  </tr>
+
+<% @image_stores.each do |compute| %>
+  <tr>
+    <td><%= link_to compute.name, compute %></td>
+    <td><%= compute.provider_friendly_name %></td>
+    <td>
+      <%= action_buttons(link_to_if_authorized(_('Edit'), hash_for_edit_image_store_path(compute).merge(:auth_object => compute, :authorizer => authorizer)),
+                         display_delete_if_authorized(hash_for_image_store_path(:id => compute).merge(:auth_object => compute, :authorizer => authorizer), :confirm => _("Delete %s?") % compute.name)) %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<%= page_entries_info @image_stores %>
+<%= will_paginate @image_stores %>

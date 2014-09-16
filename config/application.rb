@@ -74,6 +74,7 @@ module Foreman
 
     config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
+    config.autoload_paths += %W(#{config.root}/app/models/image_stores)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/trends)

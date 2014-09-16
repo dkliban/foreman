@@ -1,0 +1,34 @@
+<%= javascript "image_store" %>
+<%= form_for @image_store, :html => {:data => {:id => @image_store.try(:id)}} do |f| %>
+  <%= base_errors_for @image_store %>
+
+  <% if show_taxonomy_tabs? %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab"><%= _("Image Store") %></a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="primary">
+  <% end %>
+        <%= text_f f, :name %>
+        <%= f.hidden_field(:provider, :id => '') if f.object.uuid.present? %>
+        <%= selectable_f f, :provider, list_providers, { :include_blank => _("Choose a provider")},
+                         {:label => _("Provider"), :disabled=> f.object.uuid.present?, :'data-url'=> provider_selected_image_stores_path, :onchange => 'providerSelected(this);'} %>
+        <%= textarea_f f, :description, :rows => 3 %>
+        <div id='compute_connection'>
+          <%= render "image_stores/form/#{@image_store.provider.downcase}", :f => f unless @image_store.provider.empty? %>
+        </div>
+    <% if show_taxonomy_tabs? %>
+      </div>
+      <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @image_store %>
+    </div>
+  <% end %>
+
+  <%= submit_or_cancel f %>
+<% end %>
